@@ -43,15 +43,15 @@ Set up backend infrastructure and database.
 
 Tasks:
 
-- [ ] Initialize Node.js + TypeScript
-- [ ] Configure Express
-- [ ] Configure PostgreSQL
-- [ ] Configure Prisma
-- [ ] Create Prisma Schema
-- [ ] Generate Initial Migration
-- [ ] Setup Environment Variables
-- [ ] Setup Error Handling
-- [ ] Setup Logging
+- [x] Initialize Node.js + TypeScript
+- [x] Configure Express
+- [x] Configure PostgreSQL
+- [x] Configure Prisma
+- [x] Create Prisma Schema
+- [x] Generate Initial Migration
+- [x] Setup Environment Variables
+- [x] Setup Error Handling
+- [x] Setup Logging
 
 Deliverables:
 
@@ -71,11 +71,11 @@ Allow users to create accounts and log in.
 
 Tasks:
 
-- [ ] Register User
-- [ ] Login User
-- [ ] JWT Authentication
-- [ ] Auth Middleware
-- [ ] Current User Endpoint
+- [x] Register User
+- [x] Login User
+- [x] JWT Authentication
+- [x] Auth Middleware
+- [x] Current User Endpoint
 
 Routes:
 
