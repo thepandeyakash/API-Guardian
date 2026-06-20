@@ -1,179 +1,181 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 enum HttpMethod {
-    GET
-    POST
-    PUT
-    PATCH
-    DELETE
+  GET
+  POST
+  PUT
+  PATCH
+  DELETE
 }
 
 enum EndpointStatus {
-    UP
-    DOWN
-    UNKNOWN
+  UP
+  DOWN
+  UNKNOWN
 }
 
 enum IncidentStatus {
-    OPEN
-    CLOSED
+  OPEN
+  CLOSED
 }
 
 enum Severity {
-    LOW
-    MEDIUM
-    HIGH
-    CRITICAL
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
 }
 
 enum AlertType {
-    DOWN
-    RECOVERED
-    SECURITY
+  DOWN
+  RECOVERED
+  SECURITY
 }
 
 enum AlertChannel {
-    EMAIL
-    DASHBOARD
+  EMAIL
+  DASHBOARD
 }
 
 enum AlertStatus {
-    PENDING
-    SENT
-    FAILED
+  PENDING
+  SENT
+  FAILED
 }
 
 model User {
-    id           String   @id @default(uuid())
-    name         String
-    email        String   @unique
-    passwordHash String
-    createdAt    DateTime @default(now())
-    updatedAt    DateTime @updatedAt
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-    projects Project[]
+  projects Project[]
 }
 
 model Project {
-    id          String   @id @default(uuid())
-    userId      String
-    name        String
-    description String?
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+  id          String   @id @default(uuid())
+  userId      String
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    endpoints Endpoint[]
+  endpoints Endpoint[]
+
+  @@unique([userId, name])
 }
 
 model Endpoint {
-    id                 String         @id @default(uuid())
-    projectId          String
-    name               String
-    url                String
-    method             HttpMethod
-    headers            Json?
-    requestBody        Json?
-    authConfig         Json?
-    monitoringInterval Int
-    isActive           Boolean        @default(true)
-    lastStatus         EndpointStatus @default(UNKNOWN)
-    lastStatusCode     Int?
-    lastLatency        Int?
-    lastCheckedAt      DateTime?
-    createdAt          DateTime       @default(now())
-    updatedAt          DateTime       @updatedAt
+  id                 String         @id @default(uuid())
+  projectId          String
+  name               String
+  url                String
+  method             HttpMethod
+  headers            Json?
+  requestBody        Json?
+  authConfig         Json?
+  monitoringInterval Int
+  isActive           Boolean        @default(true)
+  lastStatus         EndpointStatus @default(UNKNOWN)
+  lastStatusCode     Int?
+  lastLatency        Int?
+  lastCheckedAt      DateTime?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
 
-    project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
-    monitoringLogs MonitoringLog[]
-    incidents      Incident[]
-    securityScans  SecurityScan[]
-    alerts         Alert[]
+  monitoringLogs MonitoringLog[]
+  incidents      Incident[]
+  securityScans  SecurityScan[]
+  alerts         Alert[]
 }
 
 model MonitoringLog {
-    id           String   @id @default(uuid())
-    endpointId   String
-    statusCode   Int?
-    latency      Int?
-    responseSize Int?
-    isUp         Boolean
-    errorMessage String?
-    checkedAt    DateTime @default(now())
+  id           String   @id @default(uuid())
+  endpointId   String
+  statusCode   Int?
+  latency      Int?
+  responseSize Int?
+  isUp         Boolean
+  errorMessage String?
+  checkedAt    DateTime @default(now())
 
-    endpoint Endpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+  endpoint Endpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
 }
 
 model Incident {
-    id               String         @id @default(uuid())
-    endpointId       String
-    startedAt        DateTime       @default(now())
-    endedAt          DateTime?
-    duration         Int?
-    status           IncidentStatus @default(OPEN)
-    failureCount     Int            @default(1)
-    lastErrorMessage String?
-    createdAt        DateTime       @default(now())
-    updatedAt        DateTime       @updatedAt
+  id               String         @id @default(uuid())
+  endpointId       String
+  startedAt        DateTime       @default(now())
+  endedAt          DateTime?
+  duration         Int?
+  status           IncidentStatus @default(OPEN)
+  failureCount     Int            @default(1)
+  lastErrorMessage String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 
-    endpoint Endpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+  endpoint Endpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
 
-    alerts Alert[]
+  alerts Alert[]
 }
 
 model SecurityScan {
-    id           String   @id @default(uuid())
-    endpointId   String
-    score        Int
-    scanDuration Int
-    scannedAt    DateTime @default(now())
+  id           String   @id @default(uuid())
+  endpointId   String
+  score        Int
+  scanDuration Int
+  scannedAt    DateTime @default(now())
 
-    endpoint Endpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+  endpoint Endpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
 
-    securityIssues SecurityIssue[]
-    alerts         Alert[]
+  securityIssues SecurityIssue[]
+  alerts         Alert[]
 }
 
 model SecurityIssue {
-    id             String   @id @default(uuid())
-    securityScanId String
-    title          String
-    severity       Severity
-    description    String
-    recommendation String
-    aiExplanation  String?
-    aiSuggestedFix String?
-    createdAt      DateTime @default(now())
+  id             String   @id @default(uuid())
+  securityScanId String
+  title          String
+  severity       Severity
+  description    String
+  recommendation String
+  aiExplanation  String?
+  aiSuggestedFix String?
+  createdAt      DateTime @default(now())
 
-    securityScan SecurityScan @relation(fields: [securityScanId], references: [id], onDelete: Cascade)
+  securityScan SecurityScan @relation(fields: [securityScanId], references: [id], onDelete: Cascade)
 }
 
 model Alert {
-    id             String       @id @default(uuid())
-    endpointId     String
-    incidentId     String?
-    securityScanId String?
-    type           AlertType
-    channel        AlertChannel
-    status         AlertStatus  @default(PENDING)
-    title          String
-    message        String
-    sentAt         DateTime?
-    readAt         DateTime?
-    createdAt      DateTime     @default(now())
+  id             String       @id @default(uuid())
+  endpointId     String
+  incidentId     String?
+  securityScanId String?
+  type           AlertType
+  channel        AlertChannel
+  status         AlertStatus  @default(PENDING)
+  title          String
+  message        String
+  sentAt         DateTime?
+  readAt         DateTime?
+  createdAt      DateTime     @default(now())
 
-    endpoint Endpoint @relation(fields: [endpointId], references: [id])
+  endpoint Endpoint @relation(fields: [endpointId], references: [id])
 
-    incident Incident? @relation(fields: [incidentId], references: [id], onDelete: SetNull)
+  incident Incident? @relation(fields: [incidentId], references: [id], onDelete: SetNull)
 
-    securityScan SecurityScan? @relation(fields: [securityScanId], references: [id], onDelete: SetNull)
+  securityScan SecurityScan? @relation(fields: [securityScanId], references: [id], onDelete: SetNull)
 }

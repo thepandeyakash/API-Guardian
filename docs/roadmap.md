@@ -100,11 +100,11 @@ Allow users to manage projects.
 
 Tasks:
 
-- [ ] Create Project
-- [ ] Get Projects
-- [ ] Get Single Project
-- [ ] Update Project
-- [ ] Delete Project
+- [x] Create Project
+- [x] Get Projects
+- [x] Get Single Project
+- [x] Update Project
+- [x] Delete Project
 
 Deliverables:
 
