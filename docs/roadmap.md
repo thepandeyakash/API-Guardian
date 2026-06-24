@@ -122,11 +122,11 @@ Allow users to add APIs for monitoring.
 
 Tasks:
 
-- [ ] Create Endpoint
-- [ ] View Endpoint
-- [ ] Update Endpoint
-- [ ] Delete Endpoint
-- [ ] Validate Endpoint Configuration
+- [x] Create Endpoint
+- [x] View Endpoint
+- [x] Update Endpoint
+- [x] Delete Endpoint
+- [x] Validate Endpoint Configuration
 
 Deliverables:
 
@@ -344,8 +344,8 @@ Deliverables:
 # MVP Completion Checklist
 
 ### Backend
-- [ ] Authentication
-- [ ] Projects
+- [x] Authentication
+- [x] Projects
 - [ ] Endpoints
 - [ ] Monitoring Engine
 - [ ] Security Scanner

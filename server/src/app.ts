@@ -3,6 +3,7 @@ import cors from "cors";
 import authRoutes from "./modules/auth/auth.routes.js";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 import projectRoutes from "./modules/project/project.routes.js";
+import endpointRoutes from "./modules/endpoint/endpoint.routes.js";
 
 
 const app = express();
@@ -16,6 +17,11 @@ app.use("/api/v1/projects", projectRoutes);
 app.get("/", (req, res) => {
   res.send("API Guardian backend working.");
 });
+
+app.use(
+  "/api/v1/endpoints",
+  endpointRoutes
+);
 
 app.use(errorMiddleware);
 export default app;

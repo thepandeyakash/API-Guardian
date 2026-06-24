@@ -85,8 +85,9 @@ model Endpoint {
   headers            Json?
   requestBody        Json?
   authConfig         Json?
-  monitoringInterval Int
-  isActive           Boolean        @default(true)
+  expectedStatusCode Int            @default(200)
+  monitoringEnabled  Boolean        @default(true)
+  monitoringInterval Int            @default(300)
   lastStatus         EndpointStatus @default(UNKNOWN)
   lastStatusCode     Int?
   lastLatency        Int?
@@ -100,6 +101,9 @@ model Endpoint {
   incidents      Incident[]
   securityScans  SecurityScan[]
   alerts         Alert[]
+
+  @@unique([projectId, url, method])
+  @@index([projectId])
 }
 
 model MonitoringLog {
