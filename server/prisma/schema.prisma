@@ -77,23 +77,24 @@ model Project {
 }
 
 model Endpoint {
-  id                 String         @id @default(uuid())
-  projectId          String
-  name               String
-  url                String
-  method             HttpMethod
-  headers            Json?
-  requestBody        Json?
-  authConfig         Json?
-  expectedStatusCode Int            @default(200)
-  monitoringEnabled  Boolean        @default(true)
-  monitoringInterval Int            @default(300)
-  lastStatus         EndpointStatus @default(UNKNOWN)
-  lastStatusCode     Int?
-  lastLatency        Int?
-  lastCheckedAt      DateTime?
-  createdAt          DateTime       @default(now())
-  updatedAt          DateTime       @updatedAt
+  id                    String         @id @default(uuid())
+  projectId             String
+  name                  String
+  url                   String
+  method                HttpMethod
+  headers               Json?
+  requestBody           Json?
+  authConfig            Json?
+  expectedStatusCode    Int            @default(200)
+  monitoringEnabled     Boolean        @default(true)
+  monitoringInterval    Int            @default(300)
+  lastStatus            EndpointStatus @default(UNKNOWN)
+  lastHealthCheckPassed Boolean?
+  lastStatusCode        Int?
+  lastLatency           Int?
+  lastCheckedAt         DateTime?
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
 
   project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
@@ -112,11 +113,15 @@ model MonitoringLog {
   statusCode   Int?
   latency      Int?
   responseSize Int?
+  isHealthy    Boolean
   isUp         Boolean
   errorMessage String?
   checkedAt    DateTime @default(now())
 
   endpoint Endpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+
+  @@index([endpointId])
+  @@index([checkedAt])
 }
 
 model Incident {
@@ -134,6 +139,9 @@ model Incident {
   endpoint Endpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
 
   alerts Alert[]
+
+  @@index([endpointId])
+  @@index([status])
 }
 
 model SecurityScan {
