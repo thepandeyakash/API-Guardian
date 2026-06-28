@@ -50,6 +50,12 @@ enum AlertStatus {
   FAILED
 }
 
+enum SecurityScanStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
 model User {
   id           String   @id @default(uuid())
   name         String
@@ -145,11 +151,12 @@ model Incident {
 }
 
 model SecurityScan {
-  id           String   @id @default(uuid())
+  id           String             @id @default(uuid())
   endpointId   String
-  score        Int
-  scanDuration Int
-  scannedAt    DateTime @default(now())
+  status       SecurityScanStatus @default(PENDING)
+  score        Int?
+  scanDuration Int?
+  scannedAt    DateTime           @default(now())
 
   endpoint Endpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
 
@@ -160,6 +167,7 @@ model SecurityScan {
 model SecurityIssue {
   id             String   @id @default(uuid())
   securityScanId String
+  code           String
   title          String
   severity       Severity
   description    String

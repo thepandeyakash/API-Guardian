@@ -6,6 +6,8 @@ import { prisma } from "./config/prisma.js";
 import { startMonitoringScheduler } from "./jobs/schedulers/monitoring.scheduler.js";
 import "./jobs/workers/monitoring.worker.js";
 
+import "./jobs/workers/security.worker.js";
+
 async function startServer() {
   try {
     await prisma.$connect();

@@ -5,6 +5,7 @@ import { errorMiddleware } from "./middlewares/error.middleware.js";
 import projectRoutes from "./modules/project/project.routes.js";
 import endpointRoutes from "./modules/endpoint/endpoint.routes.js";
 import monitoringRoutes from "./modules/monitoring/monitoring.routes.js";
+import securityRoutes from "./modules/security/security.routes.js";
 
 import testRoutes from "./routes/test.routes.js";
 
@@ -29,6 +30,11 @@ app.use(
 app.use(
     "/api/v1/monitoring",
     monitoringRoutes
+);
+
+app.use(
+    "/api/v1/security",
+    securityRoutes
 );
 
 app.use("/test", testRoutes);
