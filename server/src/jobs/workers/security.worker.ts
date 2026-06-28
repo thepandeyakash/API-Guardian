@@ -12,6 +12,7 @@ import {
     Severity,
     SecurityScanStatus,
 } from "@prisma/client";
+import { explainIssue } from "../../services/ai.service.js";
 
 export const securityWorker =
     new Worker(
@@ -55,6 +56,11 @@ export const securityWorker =
                 ) {
                     score -= 20;
 
+                    const ai = await explainIssue(
+                        "HTTPS not enabled",
+                        "Endpoint does not use HTTPS."
+                    );
+
                     issues.push({
                         securityScanId:
                             scanId,
@@ -73,6 +79,12 @@ export const securityWorker =
 
                         recommendation:
                             "Enable HTTPS.",
+
+                        aiExplanation:
+                            ai.explanation,
+
+                        aiSuggestedFix:
+                            ai.fix,
                     });
                 }
 
@@ -93,6 +105,10 @@ export const securityWorker =
                 ) {
                     score -= 20;
 
+                    const ai = await explainIssue(
+                        "Missing HSTS",
+                        "Strict-Transport-Security header missing."
+                    );
                     issues.push({
                         securityScanId:
                             scanId,
@@ -111,6 +127,12 @@ export const securityWorker =
 
                         recommendation:
                             "Add HSTS header.",
+
+                        aiExplanation:
+                            ai.explanation,
+
+                        aiSuggestedFix:
+                            ai.fix,
                     });
                 }
 
@@ -122,6 +144,11 @@ export const securityWorker =
                     )
                 ) {
                     score -= 10;
+
+                    const ai = await explainIssue(
+                        "Missing CSP",
+                        "Content-Security-Policy header missing."
+                    );
 
                     issues.push({
                         securityScanId:
@@ -141,6 +168,12 @@ export const securityWorker =
 
                         recommendation:
                             "Add CSP header.",
+
+                        aiExplanation:
+                            ai.explanation,
+
+                        aiSuggestedFix:
+                            ai.fix,
                     });
                 }
 
@@ -153,6 +186,10 @@ export const securityWorker =
                 ) {
                     score -= 10;
 
+                    const ai = await explainIssue(
+                        "Missing X-Frame-Options",
+                        "X-Frame-Options missing."
+                    );
                     issues.push({
                         securityScanId:
                             scanId,
@@ -171,6 +208,12 @@ export const securityWorker =
 
                         recommendation:
                             "Add X-Frame-Options.",
+
+                        aiExplanation:
+                            ai.explanation,
+
+                        aiSuggestedFix:
+                            ai.fix,
                     });
                 }
 
@@ -183,6 +226,10 @@ export const securityWorker =
                 ) {
                     score -= 10;
 
+                    const ai = await explainIssue(
+                        "Missing X-Content-Type-Options",
+                        "X-Content-Type-Options missing."
+                    );
                     issues.push({
                         securityScanId:
                             scanId,
@@ -201,6 +248,12 @@ export const securityWorker =
 
                         recommendation:
                             "Add nosniff.",
+
+                        aiExplanation:
+                            ai.explanation,
+
+                        aiSuggestedFix:
+                            ai.fix,
                     });
                 }
 
@@ -216,6 +269,10 @@ export const securityWorker =
                 ) {
                     score -= 30;
 
+                    const ai = await explainIssue(
+                        "Wildcard CORS",
+                        "CORS allows all origins."
+                    );
                     issues.push({
                         securityScanId:
                             scanId,
@@ -234,6 +291,12 @@ export const securityWorker =
 
                         recommendation:
                             "Restrict allowed origins.",
+
+                        aiExplanation:
+                            ai.explanation,
+
+                        aiSuggestedFix:
+                            ai.fix,
                     });
                 }
 
