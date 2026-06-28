@@ -3,6 +3,7 @@ import { performance } from "node:perf_hooks";
 
 import { redis } from "../../config/redis.js";
 import { prisma } from "../../config/prisma.js";
+import { AlertChannel, AlertType } from "@prisma/client";
 
 export const monitoringWorker = new Worker(
     "monitoring",
@@ -131,11 +132,32 @@ export const monitoringWorker = new Worker(
                     },
                 });
             } else {
-                await prisma.incident.create({
+                const incident = await prisma.incident.create({
                     data: {
                         endpointId: endpoint.id,
                         lastErrorMessage:
                             errorMessage,
+                    },
+                });
+
+                await prisma.alert.create({
+                    data: {
+                        endpointId,
+
+                        incidentId:
+                            incident.id,
+
+                        type:
+                            AlertType.DOWN,
+
+                        channel:
+                            AlertChannel.DASHBOARD,
+
+                        title:
+                            "Endpoint Down",
+
+                        message:
+                            `${endpoint.name} is down.`,
                     },
                 });
             }
@@ -166,6 +188,27 @@ export const monitoringWorker = new Worker(
                         ),
                     },
                 });
+
+                await prisma.alert.create({
+                    data: {
+                        endpointId,
+
+                        incidentId:
+                            openIncident.id,
+
+                        type:
+                            AlertType.RECOVERED,
+
+                        channel:
+                            AlertChannel.DASHBOARD,
+
+                        title:
+                            "Endpoint Recovered",
+
+                        message:
+                            `${endpoint.name} has recovered.`,
+                    },
+                });
             }
         }
 
@@ -193,3 +236,4 @@ monitoringWorker.on("failed", (job, error) => {
         error.message
     );
 });
+

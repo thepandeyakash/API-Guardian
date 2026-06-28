@@ -11,6 +11,8 @@ import { redis }
 import {
     Severity,
     SecurityScanStatus,
+    AlertChannel,
+    AlertType,
 } from "@prisma/client";
 import { explainIssue } from "../../services/ai.service.js";
 
@@ -308,6 +310,39 @@ export const securityWorker =
                             data: issues,
                         }
                     );
+
+                    const criticalIssues =
+                        issues.filter(
+                            issue =>
+                                issue.severity ===
+                                Severity.CRITICAL
+                        ).length;
+
+                    if (
+                        score < 70 ||
+                        criticalIssues > 0
+                    ) {
+                        await prisma.alert.create({
+                            data: {
+                                endpointId,
+
+                                securityScanId:
+                                    scanId,
+
+                                type:
+                                    AlertType.SECURITY,
+
+                                channel:
+                                    AlertChannel.DASHBOARD,
+
+                                title:
+                                    "Security Risk Detected",
+
+                                message:
+                                    `Found ${issues.length} vulnerabilities including ${criticalIssues} critical issue(s). Security score: ${score}/100.`,
+                            },
+                        });
+                    }
                 }
 
                 await prisma.securityScan.update({
