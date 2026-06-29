@@ -7,6 +7,7 @@ import endpointRoutes from "./modules/endpoint/endpoint.routes.js";
 import monitoringRoutes from "./modules/monitoring/monitoring.routes.js";
 import securityRoutes from "./modules/security/security.routes.js";
 import alertsRoutes from "./modules/alerts/alerts.routes.js";
+import reportsRoutes from "./modules/reports/reports.routes.js";
 
 import testRoutes from "./routes/test.routes.js";
 
@@ -41,6 +42,11 @@ app.use(
 app.use(
     "/api/v1/alerts",
     alertsRoutes
+);
+
+app.use(
+    "/api/v1/reports",
+    reportsRoutes
 );
 
 app.use("/test", testRoutes);
