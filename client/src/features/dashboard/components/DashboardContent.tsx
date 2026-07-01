@@ -1,6 +1,7 @@
 import type { DashboardData } from "@/types/dashboard";
 
 import { DashboardStatsGrid } from "@/features/dashboard/components/DashboardStatsGrid";
+import { EndpointsListCard } from "@/features/dashboard/components/EndpointsListCard";
 import {
   EndpointStatusOverviewCard,
 } from "@/features/dashboard/components/EndpointStatusOverviewCard";
@@ -31,6 +32,8 @@ export function DashboardContent({ data }: DashboardContentProps) {
         <RecentAlertsCard alerts={data.recentAlerts} />
         <RecentIncidentsCard incidents={data.recentIncidents} />
       </div>
+
+      <EndpointsListCard endpoints={data.endpoints} />
     </div>
   );
 }

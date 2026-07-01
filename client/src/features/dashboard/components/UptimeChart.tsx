@@ -20,6 +20,8 @@ import type { UptimeChartPoint } from "@/types/monitoring";
 
 type UptimeChartProps = {
   data: UptimeChartPoint[];
+  title?: string;
+  description?: string;
 };
 
 function ChartTooltip({
@@ -50,16 +52,18 @@ function ChartTooltip({
   );
 }
 
-export function UptimeChart({ data }: UptimeChartProps) {
+export function UptimeChart({
+  data,
+  title = "Uptime Trend",
+  description = "Hourly uptime aggregated across all monitored endpoints",
+}: UptimeChartProps) {
   const isEmpty = data.length === 0;
 
   return (
     <Card className="border-border/60 bg-card/70">
       <CardHeader className="text-left">
-        <CardTitle>Uptime Trend</CardTitle>
-        <CardDescription>
-          Hourly uptime aggregated across all monitored endpoints
-        </CardDescription>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
         {isEmpty ? (

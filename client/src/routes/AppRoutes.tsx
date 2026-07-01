@@ -7,6 +7,7 @@ import { AuthLayout } from "@/layouts/AuthLayout";
 import { LoginPage } from "@/pages/auth/LoginPage";
 import { RegisterPage } from "@/pages/auth/RegisterPage";
 import { DashboardPage } from "@/pages/DashboardPage";
+import { EndpointDetailsPage } from "@/pages/EndpointDetailsPage";
 
 export function AppRoutes() {
   return (
@@ -14,6 +15,10 @@ export function AppRoutes() {
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<DashboardPage />} />
+          <Route
+            path="/endpoints/:endpointId"
+            element={<EndpointDetailsPage />}
+          />
         </Route>
 
         <Route element={<GuestRoute />}>

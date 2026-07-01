@@ -5,6 +5,9 @@ import {
   EndpointStatusOverviewSkeleton,
 } from "@/features/dashboard/components/EndpointStatusOverviewCard";
 import {
+  EndpointsListCardSkeleton,
+} from "@/features/dashboard/components/EndpointsListCard";
+import {
   RecentAlertsCardSkeleton,
 } from "@/features/dashboard/components/RecentAlertsCard";
 import {
@@ -34,6 +37,8 @@ export function DashboardSkeleton() {
         <RecentAlertsCardSkeleton />
         <RecentIncidentsCardSkeleton />
       </div>
+
+      <EndpointsListCardSkeleton />
     </div>
   );
 }
