@@ -1,8 +1,14 @@
 import axios from "axios";
 
+import { queryClient } from "@/lib/queryClient";
+import { authKeys } from "@/lib/query-keys";
+import { useAuthStore } from "@/stores/auth.store";
+
 export const api = axios.create({
   baseURL: "http://localhost:5000/api/v1",
-  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 api.interceptors.request.use((config) => {
@@ -14,3 +20,22 @@ api.interceptors.request.use((config) => {
 
   return config;
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      const requestUrl = error.config?.url ?? "";
+      const isAuthRequest =
+        requestUrl.includes("/auth/login") ||
+        requestUrl.includes("/auth/register");
+
+      if (!isAuthRequest) {
+        useAuthStore.getState().logout();
+        queryClient.removeQueries({ queryKey: authKeys.all });
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
