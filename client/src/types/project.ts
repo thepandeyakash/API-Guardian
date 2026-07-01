@@ -5,3 +5,13 @@ export type Project = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type CreateProjectPayload = {
+  name: string;
+  description?: string;
+};
+
+export type UpdateProjectPayload = {
+  name?: string;
+  description?: string;
+};

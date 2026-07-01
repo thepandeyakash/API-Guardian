@@ -26,3 +26,8 @@ export async function getMonitoringAnalytics(
 
   return data.data;
 }
+
+export async function runHealthCheck(endpointId: string): Promise<void> {
+  await api.post(`/monitoring/check/${endpointId}`);
+}
+

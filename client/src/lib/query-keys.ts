@@ -6,11 +6,18 @@ export const authKeys = {
 export const projectKeys = {
   all: ["projects"] as const,
   list: () => [...projectKeys.all, "list"] as const,
+  detail: (id: string) => [...projectKeys.all, "detail", id] as const,
 };
 
 export const endpointKeys = {
   all: ["endpoints"] as const,
   list: () => [...endpointKeys.all, "list"] as const,
+  detail: (id: string) => [...endpointKeys.all, "detail", id] as const,
+};
+
+export const projectsPageKeys = {
+  all: ["projects-page"] as const,
+  overview: () => [...projectsPageKeys.all, "overview"] as const,
 };
 
 export const reportKeys = {
