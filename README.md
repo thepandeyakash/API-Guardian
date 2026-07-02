@@ -21,6 +21,20 @@ This project was built as a production-style SaaS application with asynchronous 
 
 ---
 
+## 🌐 Live Demo
+
+### Frontend
+🔗 https://api-guardian-chi.vercel.app
+
+### Backend API
+🔗 https://api-guardian-production-00b2.up.railway.app
+
+### Demo Credentials (Optional)
+```text
+Email: test@test.com
+Password: 12345678
+```
+
 ## ✨ Features
 
 ### 🔐 Authentication
