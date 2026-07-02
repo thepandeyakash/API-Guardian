@@ -19,6 +19,7 @@ export function AppRoutes() {
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<DashboardPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/security" element={<SecurityPage />} />
           <Route path="/reports" element={<ReportsPage />} />
