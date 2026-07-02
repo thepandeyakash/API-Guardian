@@ -1,4 +1,4 @@
-import { LayoutDashboard, Plus, RefreshCw, Search } from "lucide-react";
+import { LayoutDashboard, Plus, RefreshCw, Search, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
@@ -42,6 +42,12 @@ export function ProjectsPageHeader({
         </div>
 
         <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/security">
+              <Shield />
+              Security
+            </Link>
+          </Button>
           <Button variant="outline" size="sm" asChild>
             <Link to="/">
               <LayoutDashboard />

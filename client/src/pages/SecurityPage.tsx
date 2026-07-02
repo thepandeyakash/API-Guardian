@@ -1,19 +1,24 @@
-import { LayoutDashboard, LogOut, RefreshCw, Shield } from "lucide-react";
+import {
+  LayoutDashboard,
+  LogOut,
+  RefreshCw,
+  Shield,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
-import { DashboardContent } from "@/features/dashboard/components/DashboardContent";
-import { DashboardErrorState } from "@/features/dashboard/components/DashboardErrorState";
-import { DashboardSkeleton } from "@/features/dashboard/components/DashboardSkeleton";
-import { useDashboard } from "@/features/dashboard/hooks/useDashboard";
+import { SecurityContent } from "@/features/security/components/SecurityContent";
+import { SecurityErrorState } from "@/features/security/components/SecurityErrorState";
+import { SecuritySkeleton } from "@/features/security/components/SecuritySkeleton";
+import { useSecurityDashboard } from "@/features/security/hooks/useSecurityDashboard";
 import { useLogout } from "@/features/auth/hooks/useAuth";
 import { useAuthStore } from "@/stores/auth.store";
 
-export function DashboardPage() {
+export function SecurityPage() {
   const user = useAuthStore((state) => state.user);
   const logout = useLogout();
   const { data, isLoading, isError, error, refetch, isFetching } =
-    useDashboard();
+    useSecurityDashboard();
 
   return (
     <div className="min-h-svh bg-background">
@@ -22,27 +27,27 @@ export function DashboardPage() {
       <div className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <header className="mb-8 flex flex-col gap-4 border-b border-border/60 pb-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="text-left">
-            <h1 className="font-heading text-2xl font-semibold tracking-tight">
-              Dashboard
-            </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Overview of your API monitoring and security posture
+            <div className="mb-1 flex items-center gap-2">
+              <Shield className="size-5 text-primary" />
+              <h1 className="font-heading text-2xl font-semibold tracking-tight">
+                Security
+              </h1>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Security posture, findings, and AI-assisted remediation
               {user ? ` · ${user.name}` : ""}
             </p>
           </div>
 
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" asChild>
-              <Link to="/security">
-                <Shield />
-                Security
+              <Link to="/">
+                <LayoutDashboard />
+                Dashboard
               </Link>
             </Button>
             <Button variant="outline" size="sm" asChild>
-              <Link to="/projects">
-                <LayoutDashboard />
-                Projects
-              </Link>
+              <Link to="/projects">Projects</Link>
             </Button>
             <Button
               variant="outline"
@@ -60,10 +65,10 @@ export function DashboardPage() {
           </div>
         </header>
 
-        {isLoading ? <DashboardSkeleton /> : null}
+        {isLoading ? <SecuritySkeleton /> : null}
 
         {isError ? (
-          <DashboardErrorState
+          <SecurityErrorState
             error={error}
             onRetry={() => refetch()}
             isRetrying={isFetching}
@@ -71,7 +76,7 @@ export function DashboardPage() {
         ) : null}
 
         {!isLoading && !isError && data ? (
-          <DashboardContent data={data} />
+          <SecurityContent data={data} />
         ) : null}
       </div>
     </div>

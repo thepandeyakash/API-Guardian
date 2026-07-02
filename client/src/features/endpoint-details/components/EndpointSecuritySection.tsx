@@ -8,8 +8,16 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/features/endpoint-details/components/EmptyState";
-import type { SecurityIssue, SecurityScan, Severity } from "@/types/report";
-import { formatDateTime, formatScore } from "@/lib/format";
+import { SecurityScoreBadge } from "@/features/security/components/SecurityScoreBadge";
+import type { SecurityIssue, SecurityScan } from "@/types/report";
+import { formatDateTime } from "@/lib/format";
+import {
+  AI_PANEL_CLASS,
+  AI_TEXT_CLASS,
+  severityClassName,
+  severityVariant,
+  sortBySeverity,
+} from "@/lib/security";
 import { cn } from "@/lib/utils";
 import { Bot, ShieldAlert, Wrench } from "lucide-react";
 
@@ -17,43 +25,20 @@ type EndpointSecuritySectionProps = {
   latestSecurityScan: SecurityScan | null;
 };
 
-function severityVariant(severity: Severity) {
-  switch (severity) {
-    case "CRITICAL":
-    case "HIGH":
-      return "destructive" as const;
-    case "MEDIUM":
-      return "secondary" as const;
-    case "LOW":
-      return "outline" as const;
-  }
-}
-
-function severityClassName(severity: Severity) {
-  switch (severity) {
-    case "CRITICAL":
-      return "border-red-500/40 text-red-400";
-    case "HIGH":
-      return "border-orange-500/40 text-orange-400";
-    case "MEDIUM":
-      return "text-amber-400";
-    case "LOW":
-      return "text-muted-foreground";
-  }
-}
-
 function SecurityIssueCard({ issue }: { issue: SecurityIssue }) {
   return (
-    <div className="rounded-lg border border-border/50 bg-muted/10 p-4 text-left">
+    <div className="min-w-0 rounded-lg border border-border/50 bg-muted/10 p-4 text-left">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0 space-y-1">
           <div className="flex flex-wrap items-center gap-2">
-            <h4 className="font-medium">{issue.title}</h4>
+            <h4 className="font-medium break-words">{issue.title}</h4>
             <Badge variant="outline" className="font-mono text-[11px]">
               {issue.code}
             </Badge>
           </div>
-          <p className="text-sm text-muted-foreground">{issue.description}</p>
+          <p className="text-sm break-words text-muted-foreground">
+            {issue.description}
+          </p>
         </div>
         <Badge
           variant={severityVariant(issue.severity)}
@@ -64,32 +49,30 @@ function SecurityIssueCard({ issue }: { issue: SecurityIssue }) {
       </div>
 
       <div className="mt-4 space-y-3 border-t border-border/40 pt-4">
-        <div>
+        <div className="min-w-0">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Recommendation
           </p>
-          <p className="mt-1 text-sm">{issue.recommendation}</p>
+          <p className="mt-1 text-sm break-words">{issue.recommendation}</p>
         </div>
 
         {issue.aiExplanation ? (
-          <div className="rounded-md border border-border/40 bg-background/40 p-3">
+          <div className={AI_PANEL_CLASS}>
             <div className="mb-1 flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-              <Bot className="size-3.5" />
+              <Bot className="size-3.5 shrink-0" />
               AI Explanation
             </div>
-            <p className="text-sm">{issue.aiExplanation}</p>
+            <p className={AI_TEXT_CLASS}>{issue.aiExplanation}</p>
           </div>
         ) : null}
 
         {issue.aiSuggestedFix ? (
-          <div className="rounded-md border border-border/40 bg-background/40 p-3">
+          <div className={AI_PANEL_CLASS}>
             <div className="mb-1 flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-              <Wrench className="size-3.5" />
+              <Wrench className="size-3.5 shrink-0" />
               AI Suggested Fix
             </div>
-            <p className="text-sm font-mono whitespace-pre-wrap">
-              {issue.aiSuggestedFix}
-            </p>
+            <p className={AI_TEXT_CLASS}>{issue.aiSuggestedFix}</p>
           </div>
         ) : null}
       </div>
@@ -121,16 +104,7 @@ export function EndpointSecuritySection({
     );
   }
 
-  const issues = [...latestSecurityScan.securityIssues].sort((a, b) => {
-    const order: Record<Severity, number> = {
-      CRITICAL: 0,
-      HIGH: 1,
-      MEDIUM: 2,
-      LOW: 3,
-    };
-
-    return order[a.severity] - order[b.severity];
-  });
+  const issues = sortBySeverity(latestSecurityScan.securityIssues);
 
   return (
     <Card className="border-border/60 bg-card/70">
@@ -144,9 +118,7 @@ export function EndpointSecuritySection({
           </div>
           <div className="flex flex-wrap items-center gap-2 text-sm">
             <Badge variant="outline">{latestSecurityScan.status}</Badge>
-            <span className="text-muted-foreground">
-              Score: {formatScore(latestSecurityScan.score)}
-            </span>
+            <SecurityScoreBadge score={latestSecurityScan.score} />
             <span className="text-muted-foreground">
               {formatDateTime(latestSecurityScan.scannedAt)}
             </span>

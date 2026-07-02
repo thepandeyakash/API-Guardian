@@ -9,6 +9,7 @@ import {
   monitoringKeys,
   projectsPageKeys,
   reportKeys,
+  securityKeys,
 } from "@/lib/query-keys";
 import {
   createEndpoint,
@@ -30,6 +31,7 @@ function invalidateEndpointQueries(
   queryClient.invalidateQueries({ queryKey: endpointKeys.all });
   queryClient.invalidateQueries({ queryKey: projectsPageKeys.all });
   queryClient.invalidateQueries({ queryKey: dashboardKeys.all });
+  queryClient.invalidateQueries({ queryKey: securityKeys.all });
 
   if (endpointId) {
     queryClient.invalidateQueries({

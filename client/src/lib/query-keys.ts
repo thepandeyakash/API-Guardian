@@ -49,3 +49,8 @@ export const endpointDetailsKeys = {
   detail: (endpointId: string) =>
     [...endpointDetailsKeys.all, endpointId] as const,
 };
+
+export const securityKeys = {
+  all: ["security"] as const,
+  overview: () => [...securityKeys.all, "overview"] as const,
+};
