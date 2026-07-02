@@ -11,6 +11,7 @@ import { EndpointDetailsPage } from "@/pages/EndpointDetailsPage";
 import { ProjectsPage } from "@/pages/ProjectsPage";
 import { ReportsPage } from "@/pages/ReportsPage";
 import { SecurityPage } from "@/pages/SecurityPage";
+import NotFoundPage from "@/pages/NotFoundPage";
 
 export function AppRoutes() {
   return (
@@ -34,7 +35,9 @@ export function AppRoutes() {
           </Route>
         </Route>
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </AuthInitializer>
   );
