@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import { AuthInitializer } from "@/components/auth/AuthInitializer";
 import { GuestRoute } from "@/components/auth/GuestRoute";
