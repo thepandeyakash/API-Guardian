@@ -1,4 +1,4 @@
-import { LayoutDashboard, LogOut, RefreshCw, Shield } from "lucide-react";
+import { LayoutDashboard, LogOut, RefreshCw, Shield, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
@@ -32,6 +32,12 @@ export function DashboardPage() {
           </div>
 
           <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" asChild>
+              <Link to="/reports">
+                <FileText />
+                Reports
+              </Link>
+            </Button>
             <Button variant="outline" size="sm" asChild>
               <Link to="/security">
                 <Shield />

@@ -1,4 +1,5 @@
 import {
+  FileText,
   LayoutDashboard,
   LogOut,
   RefreshCw,
@@ -40,6 +41,12 @@ export function SecurityPage() {
           </div>
 
           <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" asChild>
+              <Link to="/reports">
+                <FileText />
+                Reports
+              </Link>
+            </Button>
             <Button variant="outline" size="sm" asChild>
               <Link to="/">
                 <LayoutDashboard />

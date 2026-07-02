@@ -54,3 +54,8 @@ export const securityKeys = {
   all: ["security"] as const,
   overview: () => [...securityKeys.all, "overview"] as const,
 };
+
+export const reportsPageKeys = {
+  all: ["reports-page"] as const,
+  overview: () => [...reportsPageKeys.all, "overview"] as const,
+};

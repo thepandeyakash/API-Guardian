@@ -9,6 +9,7 @@ import { RegisterPage } from "@/pages/auth/RegisterPage";
 import { DashboardPage } from "@/pages/DashboardPage";
 import { EndpointDetailsPage } from "@/pages/EndpointDetailsPage";
 import { ProjectsPage } from "@/pages/ProjectsPage";
+import { ReportsPage } from "@/pages/ReportsPage";
 import { SecurityPage } from "@/pages/SecurityPage";
 
 export function AppRoutes() {
@@ -19,6 +20,7 @@ export function AppRoutes() {
           <Route path="/" element={<DashboardPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/security" element={<SecurityPage />} />
+          <Route path="/reports" element={<ReportsPage />} />
           <Route
             path="/endpoints/:endpointId"
             element={<EndpointDetailsPage />}
