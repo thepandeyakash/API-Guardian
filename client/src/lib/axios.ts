@@ -5,7 +5,10 @@ import { authKeys } from "@/lib/query-keys";
 import { useAuthStore } from "@/stores/auth.store";
 
 export const api = axios.create({
-  baseURL: "http://localhost:5000/api/v1",
+  baseURL:
+    import.meta.env.VITE_API_URL ||
+    "http://localhost:5000/api/v1",
+
   headers: {
     "Content-Type": "application/json",
   },

@@ -7,8 +7,13 @@ export const redis = new Redis({
     maxRetriesPerRequest: null,
 });
 
+let logged = false;
+
 redis.on("connect", () => {
-    console.log("✅ Redis connected");
+    if (!logged) {
+        console.log("✅ Redis connected");
+        logged = true;
+    }
 });
 
 redis.on("error", (error: Error) => {
