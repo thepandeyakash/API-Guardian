@@ -3,5 +3,5 @@ import { env } from "./env.js";
 
 
 export const prisma = new PrismaClient({
-    log: env.NODE_ENV === 'development'? ['query','error', 'warn'] : ['error'],
+    log: env.NODE_ENV === 'development'? ['error', 'warn'] : ['error'],
 });
