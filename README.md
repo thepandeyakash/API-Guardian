@@ -1,287 +1,296 @@
+
 # 🚀 API Guardian
 
-> An AI-powered API Monitoring & Security Platform that continuously monitors API health, detects incidents, performs automated security audits, and provides AI-powered vulnerability analysis with remediation recommendations.
+> **AI-Powered API Monitoring & Security Platform** — continuously monitor API health, detect incidents, perform automated security audits, and get AI-powered vulnerability explanations with remediation recommendations.
 
 ![Status](https://img.shields.io/badge/status-active-success)
 ![Frontend](https://img.shields.io/badge/frontend-React-blue)
 ![Backend](https://img.shields.io/badge/backend-Node.js-green)
 ![Database](https://img.shields.io/badge/database-PostgreSQL-blue)
 ![Queue](https://img.shields.io/badge/queue-BullMQ-red)
-![Redis](https://img.shields.io/badge/Redis-BullMQ-red)
+![Cache](https://img.shields.io/badge/cache-Redis-red)
 ![AI](https://img.shields.io/badge/AI-Gemini-orange)
+![TypeScript](https://img.shields.io/badge/TypeScript-blue)
+
+---
+
+## 🌐 Live Demo
+
+### Frontend
+https://api-guardian-chi.vercel.app
+
+### Backend API
+https://api-guardian-5t9l.onrender.com
+
+### Demo Credentials
+
+```text
+Email: test@test.com
+Password: 12345678
+````
 
 ---
 
 ## 📖 Overview
 
-API Guardian is a full-stack observability and security platform designed to help developers monitor API availability, detect incidents, analyze performance trends, and identify security vulnerabilities.
+API Guardian is a full-stack observability and API security platform built for developers who need visibility into the reliability, performance, and security of their APIs.
 
-The platform performs API health checks, stores historical monitoring data, detects downtime incidents, generates alerts, performs automated security audits, and uses Google Gemini AI to explain vulnerabilities and recommend remediation steps.
+It allows users to register API endpoints, continuously monitor their health, track response latency and status codes, detect downtime incidents, and receive dashboard alerts when endpoints fail or recover.
 
-The project is built using a production-style architecture with:
+API Guardian also provides automated security audits that inspect API security configurations such as HTTPS, security headers, and CORS. Detected vulnerabilities are scored and analyzed using Google Gemini to provide understandable explanations and actionable remediation recommendations.
 
-- React + TypeScript frontend
-- Node.js + Express backend
-- PostgreSQL database
-- Redis + BullMQ for asynchronous job processing
-- Dedicated monitoring and security workers
-- AI-powered security analysis
-- Analytics and reporting dashboards
+The application follows a production-style architecture using asynchronous background processing with **BullMQ and Redis**, persistent data storage with **PostgreSQL and Prisma**, and a modern React dashboard.
 
 ---
 
-# 🌐 Live Demo
+# ✨ Features
 
-### Frontend
+## 🔐 Authentication
 
-🔗 https://api-guardian-chi.vercel.app
+* JWT-based authentication
+* Secure password hashing with bcrypt
+* Protected API routes
+* User-specific projects and endpoints
+* Persistent authentication state
 
-### Backend API
+## 📊 API Monitoring
 
-🔗 https://api-guardian-5t9l.onrender.com
+* Add and manage API endpoints
+* Manual health checks
+* Background monitoring through BullMQ
+* HTTP status monitoring
+* Response latency tracking
+* Response size tracking
+* Expected status code validation
+* Historical monitoring logs
+* Uptime analytics
+* Health percentage calculation
 
-### Backend Health Check
+## 🚨 Incident Management
+
+* Automatic downtime detection
+* Open incident creation
+* Failure count tracking
+* Error message tracking
+* Incident recovery detection
+* Automatic incident closure
+* Downtime duration calculation
+
+## 🔔 Alerting
+
+* Endpoint-down alerts
+* Endpoint-recovered alerts
+* Security risk alerts
+* Dashboard alert history
+* Read/unread alert tracking
+
+## 🛡️ Security Auditing
+
+API Guardian performs automated security checks including:
+
+* HTTPS configuration
+* HTTP Strict Transport Security (HSTS)
+* Content Security Policy (CSP)
+* X-Frame-Options
+* X-Content-Type-Options
+* CORS configuration
+* Security score calculation
+
+## 🤖 AI-Powered Security Analysis
+
+Security vulnerabilities are analyzed using Google Gemini to generate:
+
+* Vulnerability explanations
+* Security impact information
+* Recommended remediation
+* Suggested fixes
+* Developer-friendly security guidance
+
+## 📈 Analytics & Reporting
+
+* Monitoring history
+* Uptime percentage
+* Health percentage
+* Average latency
+* Successful vs failed checks
+* Security scores
+* Security issue history
+* Incident history
+* Endpoint performance analytics
+* Reports dashboard
+
+---
+
+# 🏗️ System Architecture
 
 ```text
-GET /
+                         React Frontend
+                              │
+                              │ REST API
+                              ▼
+                       Express API Server
+                              │
+                 ┌────────────┼────────────┐
+                 │            │            │
+                 ▼            ▼            ▼
+            PostgreSQL      Redis       Gemini AI
+                 │            │
+                 │         BullMQ
+                 │            │
+                 │      ┌─────┴─────┐
+                 │      │           │
+                 │      ▼           ▼
+                 │ Monitoring    Security
+                 │   Worker       Worker
+                 │      │           │
+                 └──────┴───────────┘
+                        │
+                        ▼
+                  Stored Results
+                        │
+                        ▼
+                  React Dashboard
+```
 
-Expected response:
+---
 
-API Guardian backend working.
-Demo Credentials
-Email: test@test.com
-Password: 12345678
+# 🔄 Core Workflows
 
-Demo credentials may change depending on the current database state.
+## Monitoring Workflow
 
-✨ Features
-🔐 Authentication
-JWT-based authentication
-Secure password hashing using bcrypt
-Protected API routes
-User-specific projects and endpoints
-Authentication middleware
-📊 API Monitoring
-API endpoint monitoring
-HTTP method support
-Custom request headers
-Expected status code validation
-Response latency tracking
-Response size tracking
-Monitoring history
-Uptime analytics
-Health status tracking
-🚨 Incident Management
-
-API Guardian automatically detects endpoint failures and manages incidents.
-
-Features include:
-
-Automatic incident creation
-Failure count tracking
-Downtime detection
-Incident duration calculation
-Automatic incident recovery detection
-Incident history
-Recovery alerts
-🔔 Alerting System
-
-The platform generates alerts for important events.
-
-Supported alerts include:
-
-Endpoint down
-Endpoint recovered
-Security vulnerabilities
-Dashboard alerts
-Alert read/unread tracking
-Incident-linked alerts
-Security-scan-linked alerts
-🛡️ Security Auditing
-
-API Guardian performs automated security checks against registered endpoints.
-
-Current checks include:
-
-HTTPS enforcement
-HSTS header
-Content Security Policy
-X-Frame-Options
-X-Content-Type-Options
-CORS configuration
-Security scoring
-
-Security scans generate a score from 0–100 based on detected issues.
-
-🤖 AI-Powered Security Analysis
-
-Security vulnerabilities are analyzed using Google Gemini AI.
-
-For detected vulnerabilities, API Guardian can generate:
-
-Vulnerability explanations
-Security impact analysis
-Recommended remediation
-Suggested fixes
-Developer-friendly security guidance
-
-Example workflow:
-
-Security Issue
-      ↓
-Gemini AI
-      ↓
-Explanation
-      ↓
-Recommended Fix
-      ↓
-Stored in Database
-📈 Analytics & Reporting
-
-API Guardian provides historical analytics for monitored endpoints.
-
-Metrics include:
-
-Total checks
-Successful checks
-Failed checks
-Healthy checks
-Uptime percentage
-Health percentage
-Average latency
-Monitoring history
-Incident trends
-Security scan results
-Endpoint performance
-🏗️ System Architecture
-                         Frontend
-                    React + TypeScript
-                           |
-                           | HTTP / REST API
-                           v
-                    Express API Server
-                           |
-              +------------+-------------+
-              |                          |
-              v                          v
-        PostgreSQL                     Redis
-              |                          |
-              |                       BullMQ
-              |                          |
-              |              +-----------+-----------+
-              |              |                       |
-              |              v                       v
-              |       Monitoring Worker        Security Worker
-              |              |                       |
-              |              v                       v
-              |        API Health Check        Security Audit
-              |                                      |
-              |                                      v
-              |                                  Gemini AI
-              |                                      |
-              +------------------+-------------------+
-                                 |
-                                 v
-                            Stored Results
-⚙️ Core Workflows
-Monitoring Workflow
-Monitoring Scheduler
-        ↓
+```text
+User / Scheduler
+       │
+       ▼
 BullMQ Monitoring Queue
-        ↓
+       │
+       ▼
 Monitoring Worker
-        ↓
-HTTP Request
-        ↓
-Measure Response
-        ↓
-Store Monitoring Log
-        ↓
-Update Endpoint Status
-        ↓
-Detect Incident
-        ↓
-Generate Alert
-Manual Monitoring Workflow
-User
- ↓
-Manual Health Check
- ↓
-Express API
- ↓
-Monitoring Service
- ↓
-BullMQ Monitoring Queue
- ↓
-Monitoring Worker
- ↓
-HTTP Request
- ↓
-Monitoring Result
-Security Workflow
-User
- ↓
-Start Security Scan
- ↓
-Express API
- ↓
-Security Service
- ↓
-Create Security Scan
- ↓
-BullMQ Security Queue
- ↓
-Security Worker
- ↓
-Analyze Endpoint
- ↓
-Detect Vulnerabilities
- ↓
-Gemini AI
- ↓
-Generate Explanation + Fix
- ↓
-Store Security Issues
- ↓
-Calculate Security Score
- ↓
-Generate Alert
-🧵 Asynchronous Job Processing
+       │
+       ▼
+HTTP Health Check
+       │
+       ├───────────────┐
+       ▼               ▼
+Monitoring Log    Endpoint Status
+       │               │
+       └───────┬───────┘
+               ▼
+        Incident Detection
+               │
+               ▼
+             Alert
+               │
+               ▼
+        Dashboard Analytics
+```
 
-API Guardian uses BullMQ + Redis to process monitoring and security tasks asynchronously.
+## Security Workflow
 
-This prevents long-running operations from blocking normal API requests.
+```text
+User Starts Security Scan
+          │
+          ▼
+   Create Security Scan
+          │
+          ▼
+    BullMQ Security Queue
+          │
+          ▼
+     Security Worker
+          │
+          ▼
+   Analyze API Endpoint
+          │
+          ├── HTTPS
+          ├── HSTS
+          ├── CSP
+          ├── X-Frame-Options
+          ├── X-Content-Type-Options
+          └── CORS
+          │
+          ▼
+   Calculate Security Score
+          │
+          ▼
+    Detect Vulnerabilities
+          │
+          ▼
+       Gemini AI
+          │
+          ▼
+ AI Explanation + Suggested Fix
+          │
+          ▼
+      Store Results
+          │
+          ▼
+     Security Dashboard
+```
 
-Queues
-monitoring
-security
-Workers
-Monitoring Worker
-Security Worker
+---
 
-The architecture allows additional background jobs and workers to be added as the platform grows.
+# 🛠️ Tech Stack
 
-📂 Project Structure
+## Frontend
+
+* React
+* TypeScript
+* React Router
+* React Query
+* Zustand
+* Tailwind CSS
+* shadcn/ui
+* Recharts
+* Axios
+* Vercel
+
+## Backend
+
+* Node.js
+* Express.js
+* TypeScript
+* PostgreSQL
+* Prisma ORM
+* JWT
+* bcrypt
+* BullMQ
+* Redis
+* Render
+
+## AI
+
+* Google Gemini API
+
+---
+
+# 📂 Project Structure
+
+```text
 API-Guardian/
 │
 ├── client/
 │   ├── src/
-│   │   ├── pages/
 │   │   ├── components/
-│   │   ├── services/
+│   │   ├── pages/
+│   │   ├── layouts/
 │   │   ├── hooks/
-│   │   ├── store/
-│   │   └── layouts/
+│   │   ├── services/
+│   │   └── store/
 │   │
 │   └── ...
 │
 ├── server/
 │   ├── prisma/
-│   │   ├── schema.prisma
-│   │   └── migrations/
+│   │   └── schema.prisma
 │   │
 │   ├── src/
 │   │   ├── config/
+│   │   ├── jobs/
+│   │   │   ├── queues/
+│   │   │   ├── schedulers/
+│   │   │   └── workers/
+│   │   ├── middlewares/
 │   │   ├── modules/
 │   │   │   ├── auth/
 │   │   │   ├── project/
@@ -290,13 +299,7 @@ API-Guardian/
 │   │   │   ├── security/
 │   │   │   ├── alerts/
 │   │   │   └── reports/
-│   │   │
-│   │   ├── jobs/
-│   │   │   ├── queues/
-│   │   │   ├── schedulers/
-│   │   │   └── workers/
-│   │   │
-│   │   ├── middlewares/
+│   │   ├── routes/
 │   │   ├── services/
 │   │   └── utils/
 │   │
@@ -306,349 +309,357 @@ API-Guardian/
 │   └── screenshots/
 │
 └── README.md
-🛠️ Tech Stack
-Frontend
-React
-TypeScript
-React Router
-React Query
-Zustand
-Tailwind CSS
-shadcn/ui
-Recharts
-Axios
-Backend
-Node.js
-Express.js
-TypeScript
-PostgreSQL
-Prisma ORM
-JWT
-bcrypt
-BullMQ
-Redis
-AI
-Google Gemini API
-Deployment
-Frontend: Vercel
-Backend: Render
-Database: PostgreSQL
-Queue / Background Jobs: Redis + BullMQ
-🗄️ Database
+```
 
-The application uses PostgreSQL with Prisma ORM.
+---
 
-Core entities
+# 🗄️ Database Design
+
+The main database entities are:
+
+```text
 User
-Project
-Endpoint
-MonitoringLog
-Incident
-Alert
-SecurityScan
-SecurityIssue
-Simplified relationships
-User
- |
- +---- Project
-         |
-         +---- Endpoint
-                |
-                +---- MonitoringLog
-                |
-                +---- Incident
-                |
-                +---- Alert
-                |
-                +---- SecurityScan
-                         |
-                         +---- SecurityIssue
-🔄 API Monitoring Lifecycle
+ │
+ └── Project
+       │
+       └── Endpoint
+             │
+             ├── MonitoringLog
+             ├── Incident
+             │     └── Alert
+             │
+             └── SecurityScan
+                    │
+                    └── SecurityIssue
+```
 
-For every health check, API Guardian records information such as:
+### Core Models
 
-Endpoint
-   ↓
-HTTP Request
-   ↓
-Status Code
-   ↓
-Latency
-   ↓
-Response Size
-   ↓
-UP / DOWN
-   ↓
-Healthy / Unhealthy
-   ↓
-Monitoring Log
+* `User`
+* `Project`
+* `Endpoint`
+* `MonitoringLog`
+* `Incident`
+* `Alert`
+* `SecurityScan`
+* `SecurityIssue`
 
-The endpoint's latest status is also updated so the dashboard can display its current state.
+PostgreSQL is accessed through Prisma ORM.
 
-🛡️ Security Scoring
+---
 
-Security scans start with a score of:
+# ⚙️ Background Processing
 
-100 / 100
+API Guardian uses **BullMQ + Redis** to handle asynchronous workloads.
 
-The score is reduced based on detected vulnerabilities.
+### Monitoring Queue
 
-Example:
+Responsible for:
 
-HTTPS missing                    -20
-HSTS missing                     -20
-CSP missing                      -10
-X-Frame-Options missing          -10
-X-Content-Type-Options missing   -10
-Wildcard CORS                    -30
+* Endpoint health checks
+* Response measurements
+* Monitoring log creation
+* Incident detection
+* Recovery detection
+* Alert generation
 
-The final score is constrained to:
+### Security Queue
 
-0–100
+Responsible for:
 
-Critical security issues can also trigger a dashboard alert.
+* Security scans
+* Header analysis
+* Security scoring
+* Vulnerability creation
+* Gemini AI analysis
+* Security alerts
 
-📸 Screenshots
-Dashboard
+This keeps expensive and recurring tasks outside the main HTTP request lifecycle.
 
-Projects
+---
 
-Endpoint Details
+# 🚀 Installation
 
-Security Dashboard
+## 1. Clone the Repository
 
-Reports Dashboard
-
-Custom 404 Page
-
-🚀 Local Development
-Prerequisites
-
-Make sure you have:
-
-Node.js
-npm
-PostgreSQL
-Redis
-Git
-Clone Repository
+```bash
 git clone https://github.com/thepandeyakash/API-Guardian.git
-
 cd API-Guardian
-Backend Setup
+```
+
+---
+
+# 🖥️ Backend Setup
+
+```bash
 cd server
-
 npm install
+```
 
-Create your environment file:
+Create a `.env` file:
 
-cp .env.example .env
-
-Configure the required environment variables:
-
+```env
 NODE_ENV=development
 PORT=5000
 
-DATABASE_URL=postgresql://...
+DATABASE_URL=postgresql://username:password@localhost:5432/api_guardian
 
-JWT_SECRET=your_secret
+JWT_SECRET=your_jwt_secret
 
 REDIS_HOST=localhost
 REDIS_PORT=6379
 REDIS_PASSWORD=
 
-Run Prisma migrations:
-
-npx prisma migrate dev
+GEMINI_API_KEY=your_gemini_api_key
+```
 
 Generate Prisma Client:
 
+```bash
 npx prisma generate
+```
 
-Start the backend:
+Run database migrations:
 
+```bash
+npx prisma migrate dev
+```
+
+Start the development server:
+
+```bash
 npm run dev
-Frontend Setup
+```
+
+---
+
+# 🔴 Redis Setup
+
+API Guardian uses Redis for BullMQ background jobs.
+
+### Using Docker
+
+```bash
+docker run -d \
+  --name redis_api_guardian \
+  -p 6379:6379 \
+  redis
+```
+
+Check that Redis is running:
+
+```bash
+docker ps
+```
+
+The backend should report:
+
+```text
+✅ Redis connected
+```
+
+---
+
+# 🌐 Frontend Setup
 
 Open another terminal:
 
+```bash
 cd client
-
 npm install
-
 npm run dev
-Redis Setup
-Using Docker
+```
 
-Run Redis:
+The frontend will be available through the Vite development server.
 
-docker run -d \
-  --name redis-api-guardian \
-  -p 6379:6379 \
-  redis
+---
 
-Or start an existing Redis container:
+# 🔑 Environment Variables
 
-docker start redis-api-guardian
-🧪 Build Verification
+The backend requires the following configuration:
 
-Backend TypeScript can be compiled using:
+| Variable         | Description                  |
+| ---------------- | ---------------------------- |
+| `NODE_ENV`       | Application environment      |
+| `PORT`           | Backend server port          |
+| `DATABASE_URL`   | PostgreSQL connection string |
+| `JWT_SECRET`     | JWT signing secret           |
+| `REDIS_HOST`     | Redis hostname               |
+| `REDIS_PORT`     | Redis port                   |
+| `REDIS_PASSWORD` | Redis password if required   |
+| `GEMINI_API_KEY` | Google Gemini API key        |
 
+> Never commit `.env` files or API keys to the repository.
+
+---
+
+# 🧪 Build
+
+Build the backend:
+
+```bash
 cd server
-
 npm run build
+```
 
-The project should compile successfully without TypeScript errors.
+Start the production build:
 
-🚀 Production Deployment
+```bash
+npm start
+```
 
-API Guardian is deployed using:
+---
 
-Frontend
-   ↓
-Vercel
+# 📸 Screenshots
 
-Backend
-   ↓
-Render
+## Dashboard
 
-PostgreSQL
-   ↓
-Production PostgreSQL Database
+![Dashboard](docs/screenshots/dashboard.png)
 
-Redis
-   ↓
-Production Redis Instance
+## Projects
 
-Background Jobs
-   ↓
-BullMQ Workers
+![Projects](docs/screenshots/projects.png)
 
-The production backend requires the following environment configuration:
+## Endpoint Details
 
-NODE_ENV=production
-PORT=<platform-provided-port>
+![Endpoint Details](docs/screenshots/endpoint.png)
 
-DATABASE_URL=<production-postgresql-url>
+## Security Dashboard
 
-JWT_SECRET=<production-secret>
+![Security Dashboard](docs/screenshots/security.png)
 
-REDIS_HOST=<redis-host>
-REDIS_PORT=<redis-port>
-REDIS_PASSWORD=<redis-password>
+## Reports Dashboard
 
-Never commit production secrets, database credentials, Redis credentials, or API keys to Git.
+![Reports Dashboard](docs/screenshots/report.png)
 
-🔐 Environment Variables
+## Custom 404 Page
 
-The following environment variables are used by the backend:
+![404 Page](docs/screenshots/404.png)
 
-Variable	Purpose
-NODE_ENV	Application environment
-PORT	Backend server port
-DATABASE_URL	PostgreSQL connection
-JWT_SECRET	JWT signing secret
-REDIS_HOST	Redis hostname
-REDIS_PORT	Redis port
-REDIS_PASSWORD	Redis authentication
-GEMINI_API_KEY	Google Gemini API access
-🎯 Demo Flow
+---
 
-The application can be demonstrated using the following workflow:
+# 🧑‍💻 Demo Flow
 
+You can explore the application using the following workflow:
+
+```text
 1. Register / Login
         ↓
-2. Create Project
+2. Create a Project
         ↓
-3. Add API Endpoint
+3. Add an API Endpoint
         ↓
-4. Run Health Check
+4. Run a Health Check
         ↓
-5. Store Monitoring Data
+5. View Monitoring Logs
         ↓
-6. Detect API Failure
+6. Simulate / Detect an Incident
         ↓
-7. Generate Incident + Alert
+7. Review Dashboard Alerts
         ↓
-8. Run Security Scan
+8. Start a Security Scan
         ↓
-9. Detect Vulnerabilities
+9. Review Security Vulnerabilities
         ↓
-10. Generate AI Explanation
+10. View AI Recommendations
         ↓
-11. Review Analytics & Reports
-💡 Key Highlights
-Full-stack SaaS architecture
-REST API architecture
-JWT authentication
-PostgreSQL + Prisma data layer
-Redis-backed asynchronous processing
-BullMQ job queues
-Background monitoring workers
-Security scanning workers
-Automated incident detection
-Automated recovery detection
-Security scoring engine
-AI-powered vulnerability analysis
-AI-generated remediation recommendations
-Historical monitoring analytics
-Security analytics
-Reporting dashboard
-Production deployment using Vercel + Render
-📚 Lessons Learned
+11. Explore Analytics & Reports
+```
+
+---
+
+# 🎯 Project Highlights
+
+### Production-Style Architecture
+
+* Modular Express backend
+* RESTful API structure
+* Prisma-based data layer
+* JWT authentication
+* Redis-backed asynchronous processing
+
+### Asynchronous Job Processing
+
+BullMQ workers separate background workloads from the main API server, allowing monitoring and security operations to run independently.
+
+### API Observability
+
+The platform tracks:
+
+* Availability
+* Status codes
+* Latency
+* Response size
+* Health status
+* Incident history
+
+### Automated Security Analysis
+
+The security worker evaluates API configurations and generates a security score based on detected vulnerabilities.
+
+### AI-Assisted Remediation
+
+Gemini provides contextual explanations and suggested fixes rather than simply reporting raw security findings.
+
+### Analytics
+
+Historical monitoring and security data are transformed into useful metrics for understanding API reliability and security posture.
+
+---
+
+# 📚 Lessons Learned
 
 Building API Guardian provided practical experience with:
 
-Full-stack application architecture
-REST API design
-Authentication and authorization
-PostgreSQL database design
-Prisma ORM
-Redis
-BullMQ
-Asynchronous job processing
-Background workers
-API observability
-Incident management
-Security auditing
-Security scoring
-AI API integration
-Frontend state management
-Dashboard development
-Production deployment
-Environment configuration
-Debugging distributed application components
-🔮 Future Improvements
+* Full-stack application architecture
+* REST API development
+* TypeScript
+* PostgreSQL database design
+* Prisma ORM
+* JWT authentication
+* Redis
+* BullMQ
+* Background workers
+* Queue-based architectures
+* API observability
+* Incident management
+* Security auditing
+* AI API integration
+* React state management
+* Data visualization
+* Production deployment
+* Cloud infrastructure
+
+---
+
+# 🔮 Future Improvements
 
 Potential future improvements include:
 
-Email and Slack notifications
-More advanced API security tests
-Request body validation
-Authentication/security testing
-SSL certificate monitoring
-Rate-limit detection
-Scheduled security scans
-More granular monitoring intervals
-Worker scaling
-Retry and dead-letter queue management
-More detailed incident analytics
-Team collaboration
-Role-based access control
-Public status pages
-API performance benchmarking
-👨‍💻 Author
-Akash Pandey
+* Email and webhook notifications
+* More advanced API security checks
+* Scheduled security scans
+* Custom monitoring intervals
+* Rate-limit monitoring
+* API response body validation
+* OpenAPI/Swagger integration
+* Distributed worker deployments
+* More notification channels
+* Role-based team access
+* Advanced anomaly detection
+* Historical security score tracking
 
-API Guardian is a flagship portfolio project demonstrating practical experience in:
+---
 
-Full-stack software engineering
-Backend architecture
-API observability
-Asynchronous systems
-Security engineering
-AI integration
-Production deployment
-⭐ Support
+# 👨‍💻 Author
+
+**Akash Pandey**
+
+API Guardian is a flagship portfolio project demonstrating full-stack software engineering, API observability, asynchronous distributed processing, security analysis, and AI-assisted developer tooling.
+
+---
+
+# ⭐ Support
 
 If you find API Guardian interesting, consider giving the repository a ⭐ on GitHub!
+
