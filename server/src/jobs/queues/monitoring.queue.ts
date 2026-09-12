@@ -1,8 +1,14 @@
 import { Queue } from "bullmq";
-import { redis } from "../../config/redis.js";
 
 export const monitoringQueue = new Queue("monitoring", {
-    connection: redis as any,
+    connection: {
+        host: process.env.REDIS_HOST,
+        port: Number(process.env.REDIS_PORT),
+        password: process.env.REDIS_PASSWORD,
+        tls: {},
+        maxRetriesPerRequest: null,
+    },
+
     defaultJobOptions: {
         removeOnComplete: 100,
         removeOnFail: 1000,
