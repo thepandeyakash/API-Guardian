@@ -514,27 +514,27 @@ npm start
 
 ## Dashboard
 
-![Dashboard](docs/screenshots/dashboard.png)
+![Dashboard](docs/Screenshots/Dashboard.png)
 
 ## Projects
 
-![Projects](docs/screenshots/projects.png)
+![Projects](docs/Screenshots/Projects.png)
 
 ## Endpoint Details
 
-![Endpoint Details](docs/screenshots/endpoint.png)
+![Endpoint Details](docs/Screenshots/endpoint.png)
 
 ## Security Dashboard
 
-![Security Dashboard](docs/screenshots/security.png)
+![Security Dashboard](docs/Screenshots/security.png)
 
 ## Reports Dashboard
 
-![Reports Dashboard](docs/screenshots/report.png)
+![Reports Dashboard](docs/Screenshots/report.png)
 
 ## Custom 404 Page
 
-![404 Page](docs/screenshots/404.png)
+![404 Page](docs/Screenshots/404.png)
 
 ---
 
