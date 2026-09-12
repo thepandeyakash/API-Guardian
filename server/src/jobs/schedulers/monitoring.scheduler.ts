@@ -4,47 +4,60 @@ import { monitoringQueue } from "../queues/monitoring.queue.js";
 export function startMonitoringScheduler() {
     console.log("🕐 Monitoring scheduler started");
 
-    setInterval(async () => {
-        console.log("🔍 Running monitoring scheduler");
+    const runMonitoring = async () => {
+        try {
+            console.log("🔍 Running monitoring scheduler");
 
-        const endpoints = await prisma.endpoint.findMany({
-            where: {
-                monitoringEnabled: true,
-            },
-            select: {
-                id: true,
-                name: true,
-                monitoringInterval: true,
-                lastCheckedAt: true,
-            },
-        });
-
-        const now = Date.now();
-
-        for (const endpoint of endpoints) {
-            const shouldMonitor =
-                !endpoint.lastCheckedAt ||
-                now - endpoint.lastCheckedAt.getTime() >=
-                endpoint.monitoringInterval * 1000;
-
-            if (!shouldMonitor) {
-                continue;
-            }
-
-            await monitoringQueue.add(
-                "health-check",
-                {
-                    endpointId: endpoint.id,
+            const endpoints = await prisma.endpoint.findMany({
+                where: {
+                    monitoringEnabled: true,
                 },
-                {
-                    jobId: endpoint.id,
-                    removeOnComplete: true,
-                }
-            );
+                select: {
+                    id: true,
+                    name: true,
+                    monitoringInterval: true,
+                    lastCheckedAt: true,
+                },
+            });
 
-            console.log(
-                `📥 Added monitoring job for ${endpoint.name}`
+            const now = Date.now();
+
+            for (const endpoint of endpoints) {
+                const shouldMonitor =
+                    !endpoint.lastCheckedAt ||
+                    now - endpoint.lastCheckedAt.getTime() >=
+                        endpoint.monitoringInterval * 1000;
+
+                if (!shouldMonitor) {
+                    continue;
+                }
+
+                await monitoringQueue.add(
+                    "health-check",
+                    {
+                        endpointId: endpoint.id,
+                    },
+                    {
+                        jobId: endpoint.id,
+                        removeOnComplete: true,
+                    }
+                );
+
+                console.log(
+                    `📥 Added monitoring job for ${endpoint.name}`
+                );
+            }
+        } catch (error) {
+            console.error(
+                "❌ Monitoring scheduler error:",
+                error
             );
         }
-    }, 60 * 1000);
+    };
+
+    // Run immediately when the server starts
+    runMonitoring();
+
+    // Check every 60 seconds
+    setInterval(runMonitoring, 60 * 1000);
 }
