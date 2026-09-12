@@ -9,7 +9,7 @@ import securityRoutes from "./modules/security/security.routes.js";
 import alertsRoutes from "./modules/alerts/alerts.routes.js";
 import reportsRoutes from "./modules/reports/reports.routes.js";
 
-import testRoutes from "./routes/test.routes.js";
+//import testRoutes from "./routes/test.routes.js";
 
 
 const app = express();
@@ -49,7 +49,7 @@ app.use(
     reportsRoutes
 );
 
-app.use("/test", testRoutes);
+//app.use("/test", testRoutes);
 
 
 app.use(errorMiddleware);
