@@ -3,7 +3,7 @@ import { env } from "./config/env.js";
 import { prisma } from "./config/prisma.js";
 
 // import "./config/redis.js";
-import { startMonitoringScheduler } from "./jobs/schedulers/monitoring.scheduler.js";
+//import { startMonitoringScheduler } from "./jobs/schedulers/monitoring.scheduler.js";
 // import "./jobs/workers/monitoring.worker.js";
 
 // import "./jobs/workers/security.worker.js";
