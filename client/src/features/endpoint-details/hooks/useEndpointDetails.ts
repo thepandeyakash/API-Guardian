@@ -8,6 +8,8 @@ export function useEndpointDetails(endpointId: string) {
     queryKey: endpointDetailsKeys.detail(endpointId),
     queryFn: () => fetchEndpointDetails(endpointId),
     enabled: Boolean(endpointId),
-    staleTime: 60 * 1000,
+    staleTime: 5 * 1000,
+    refetchInterval: 5 * 1000,
+    refetchIntervalInBackground: true,
   });
 }
