@@ -40,8 +40,13 @@ export const monitoringWorker = new Worker(
         let latency = 0;
         let statusCode: number | null = null;
         let responseSize: number | null = null;
+
+        // isUp = endpoint responded with the expected status
         let isUp = false;
+
+        // isHealthy = endpoint passed the expected-status validation
         let isHealthy = false;
+
         let errorMessage: string | null = null;
 
         try {
@@ -50,13 +55,18 @@ export const monitoringWorker = new Worker(
                 signal: controller.signal,
             };
 
-            if (endpoint.headers && typeof endpoint.headers === "object") {
-                fetchOptions.headers = endpoint.headers as HeadersInit;
+            if (
+                endpoint.headers &&
+                typeof endpoint.headers === "object"
+            ) {
+                fetchOptions.headers =
+                    endpoint.headers as HeadersInit;
             }
 
-            const response = await fetch(endpoint.url, fetchOptions);
-
-            isUp = true;
+            const response = await fetch(
+                endpoint.url,
+                fetchOptions
+            );
 
             statusCode = response.status;
 
@@ -65,11 +75,24 @@ export const monitoringWorker = new Worker(
                     response.headers.get("content-length")
                 ) || null;
 
+            // A check only passes when the API returns
+            // the status code configured for the endpoint.
             isHealthy =
                 response.status ===
                 endpoint.expectedStatusCode;
+
+            // For API Guardian, an unexpected status means
+            // the endpoint is considered DOWN.
+            isUp = isHealthy;
+
+            if (!isHealthy) {
+                errorMessage =
+                    `Expected HTTP ${endpoint.expectedStatusCode}, ` +
+                    `received HTTP ${response.status}`;
+            }
         } catch (error) {
             isUp = false;
+            isHealthy = false;
 
             if (error instanceof Error) {
                 errorMessage = error.message;
@@ -109,6 +132,16 @@ export const monitoringWorker = new Worker(
             },
         });
 
+        /*
+         * INCIDENT MANAGEMENT
+         *
+         * Any failed health check is considered a DOWN state.
+         * This includes:
+         * - Network errors
+         * - Timeouts
+         * - Unexpected HTTP status codes
+         */
+
         if (!isUp) {
             const openIncident =
                 await prisma.incident.findFirst({
@@ -132,13 +165,14 @@ export const monitoringWorker = new Worker(
                     },
                 });
             } else {
-                const incident = await prisma.incident.create({
-                    data: {
-                        endpointId: endpoint.id,
-                        lastErrorMessage:
-                            errorMessage,
-                    },
-                });
+                const incident =
+                    await prisma.incident.create({
+                        data: {
+                            endpointId: endpoint.id,
+                            lastErrorMessage:
+                                errorMessage,
+                        },
+                    });
 
                 await prisma.alert.create({
                     data: {
@@ -162,6 +196,14 @@ export const monitoringWorker = new Worker(
                 });
             }
         } else {
+            /*
+             * RECOVERY
+             *
+             * If the endpoint was previously DOWN and now
+             * returns the expected status, close the incident
+             * and create a recovery alert.
+             */
+
             const openIncident =
                 await prisma.incident.findFirst({
                     where: {
@@ -180,6 +222,7 @@ export const monitoringWorker = new Worker(
                     data: {
                         status: "CLOSED",
                         endedAt,
+
                         duration: Math.floor(
                             (
                                 endedAt.getTime() -
@@ -218,6 +261,9 @@ export const monitoringWorker = new Worker(
             isHealthy,
             latency,
             statusCode,
+            expectedStatusCode:
+                endpoint.expectedStatusCode,
+            errorMessage,
         });
     },
 
@@ -227,7 +273,9 @@ export const monitoringWorker = new Worker(
 );
 
 monitoringWorker.on("completed", (job) => {
-    console.log(`✅ Job ${job.id} completed`);
+    console.log(
+        `✅ Job ${job.id} completed`
+    );
 });
 
 monitoringWorker.on("failed", (job, error) => {
@@ -236,4 +284,3 @@ monitoringWorker.on("failed", (job, error) => {
         error.message
     );
 });
-
