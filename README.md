@@ -522,15 +522,15 @@ npm start
 
 ## Endpoint Details
 
-![Endpoint Details](docs/Screenshots/endpoint.png)
+![Endpoint Details](docs/Screenshots/Endpoint.png)
 
 ## Security Dashboard
 
-![Security Dashboard](docs/Screenshots/security.png)
+![Security Dashboard](docs/Screenshots/Security.png)
 
 ## Reports Dashboard
 
-![Reports Dashboard](docs/Screenshots/report.png)
+![Reports Dashboard](docs/Screenshots/Report.png)
 
 ## Custom 404 Page
 
